@@ -1,5 +1,6 @@
 import util
 import time
+import game
 
 def main():
     while True:
@@ -10,6 +11,9 @@ def main():
         
         if escolha == 1:
             print("Iniciando o jogo...")
+            time.sleep(1.5)
+            util.limpar_tela()
+            game.start()
         elif escolha == 2:
             print("Carregando o jogo...")
         elif escolha == 3:
@@ -22,3 +26,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
