@@ -238,7 +238,7 @@ class ChapterOneScene(Scene):
         UI.falar("Uma garota com um laço vermelho no cabelo está parada, batendo o pé impaciente.")
         time.sleep(1.5)
         
-        amiga = "Luana"
+        amiga = "Naomi"
         UI.falar(f"{amiga}: — Atrasado de novo, hein?")
         UI.falar(f"{player.nome}: — {amiga}?! Você não foi pra escola ainda? Vai se atrasar também!")
         UI.falar(f"{amiga}: — Eu prometi que ia te esperar no primeiro dia, idiota! Vamos logo!")
@@ -246,7 +246,7 @@ class ChapterOneScene(Scene):
         time.sleep(2.0)
         
         UI.limpar_tela()
-        UI.falar("Luana é minha amiga de infância. Ela é a presidente (e única membra ativa) do Clube de Jornalismo.")
+        UI.falar("Naomi é minha amiga de infância. Ela é a presidente (e única membra ativa) do Clube de Jornalismo.")
         UI.falar("Enquanto caminhamos apressados, ela já liga a câmera e aponta pra mim.")
         time.sleep(2.0)
         
@@ -263,7 +263,7 @@ class ChapterOneScene(Scene):
                 UI.falar(f"{amiga}: — Hehe! Sabia que podia contar com você!")
                 break
             elif escolha == 2:
-                UI.falar(f"{player.nome}: — Luana, você sabe que é proibido ir lá. Além disso, eu tenho que estudar...")
+                UI.falar(f"{player.nome}: — Naomi, você sabe que é proibido ir lá. Além disso, eu tenho que estudar...")
                 UI.falar(f"{amiga}: *Faz bico* — Mentiroso! Você prometeu! Eu sou muito medrosa pra ir sozinha!")
                 UI.falar(f"{player.nome}: — *Suspiro*... Tá bom, tá bom. Eu vou com você.")
                 break
@@ -276,7 +276,7 @@ class ChapterOneScene(Scene):
 
         # --- PARTE 3: O ITEM MISTERIOSO (SISTEMA DE INVENTÁRIO) ---
         UI.falar("Chegamos nos portões da escola justos no momento em que o sinal toca.")
-        UI.falar("Enquanto Luana corre na frente para a sala dela, noto algo brilhando no chão perto dos armários.")
+        UI.falar("Enquanto Naomi corre na frente para a sala dela, noto algo brilhando no chão perto dos armários.")
         time.sleep(1.5)
         
         UI.acao("*Você se abaixa para pegar o objeto*")
