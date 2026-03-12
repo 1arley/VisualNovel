@@ -69,7 +69,7 @@ class PrologueScene(Scene):
 
 class ChapterOneScene(Scene):
     def jogar(self, player):
-        prima = "Karina"
+        prima = UI.falar("Karina", cor="AMARELO")
         
         # --- PARTE 1: O DESPERTAR ---
         UI.acao("DIA 1")

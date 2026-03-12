@@ -16,7 +16,7 @@ class UI:
         "AZUL": "\033[94m",
         "MAGENTA": "\033[95m",
         "CIANO": "\033[96m",
-        "BRANCO": "\033[97m"
+        "BRANCO": "\033[97m",
     }
 
     @classmethod
