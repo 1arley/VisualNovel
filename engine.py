@@ -1,5 +1,6 @@
 import time
 from ui import UI
+from player import Player
 
 class Scene:
     """Classe base para todas as cenas do jogo."""
@@ -91,7 +92,7 @@ class ChapterOneScene(Scene):
         UI.falar("*Talvez seja melhor eu responder")
         time.sleep(1.0)
         
-        opcoes_acordar = ["Responder com calma", "Gritar de volta"]
+        opcoes_acordar = ["Sim", "Não"]
         escolha_acordar = 0
         
         while True:
@@ -219,78 +220,31 @@ class ChapterOneScene(Scene):
         print("—" * 104)
         time.sleep(2.0)
         UI.falar(f"{prima}— Seu café está pronto")
-        time.sleep(1.5)
+        time.sleep(1.0)
         UI.falar(f"{prima}— Minha mãe fritou alguns ovos antes de ir trabalhar")
-        time.sleep(3.0)
-        UI.limpar_tela()
-
-        # --- PARTE 2: A CORRIDA E A AMIGA DE INFÂNCIA ---
-        UI.falar("Me arrumo o mais rápido que posso, coloco o uniforme de qualquer jeito.")
-        UI.falar("Pego uma fatia de pão de forma na cozinha e saio correndo com ela na boca.")
-        UI.falar("É um clichê terrível, eu sei. Mas estou realmente atrasado.")
-        time.sleep(2.0)
-        
-        UI.limpar_tela()
-        UI.acao("*Passos rápidos na calçada*")
-        time.sleep(1.0)
-        UI.falar("Enquanto corro dobrando a esquina perto de casa, vejo uma figura familiar.")
-        time.sleep(1.0)
-        UI.falar("Uma garota com um laço vermelho no cabelo está parada, batendo o pé impaciente.")
         time.sleep(1.5)
-        
-        amiga = "Naomi"
-        UI.falar(f"{amiga}: — Atrasado de novo, hein?")
-        UI.falar(f"{player.nome}: — {amiga}?! Você não foi pra escola ainda? Vai se atrasar também!")
-        UI.falar(f"{amiga}: — Eu prometi que ia te esperar no primeiro dia, idiota! Vamos logo!")
-        UI.falar(f"{amiga}: — Eu precisava garantir que você não ia fugir da nossa promessa! Vamos!")
-        time.sleep(2.0)
-        
-        UI.limpar_tela()
-        UI.falar("Naomi é minha amiga de infância. Ela é a presidente (e única membra ativa) do Clube de Jornalismo.")
-        UI.falar("Enquanto caminhamos apressados, ela já liga a câmera e aponta pra mim.")
-        time.sleep(2.0)
-        
-        UI.falar(f"{amiga}: — Então, {player.nome}, preparado para investigar o prédio antigo depois da aula?")
-        UI.falar(f"{player.nome}: — Prédio antigo? Achei que a gente ia só organizar os arquivos do clube...")
-        UI.falar(f"{amiga}: — Mudei de ideia! Tem um boato sobre estática nos monitores da sala 404.")
-        UI.falar(f"{amiga}: — Eu preciso de um cinegrafista... e de alguém pra ir na frente caso apareça algo bizarro.")
-        
-        opcoes_clube = ["Aceitar o destino", "Tentar pular fora"]
-        while True:
-            escolha = UI.menu(opcoes_clube)
-            if escolha == 1:
-                UI.falar(f"{player.nome}: — Tá bom, eu vou. Mas se a gente for pego pela zeladoria, a culpa é sua.")
-                UI.falar(f"{amiga}: — Hehe! Sabia que podia contar com você!")
-                break
-            elif escolha == 2:
-                UI.falar(f"{player.nome}: — Naomi, você sabe que é proibido ir lá. Além disso, eu tenho que estudar...")
-                UI.falar(f"{amiga}: *Faz bico* — Mentiroso! Você prometeu! Eu sou muito medrosa pra ir sozinha!")
-                UI.falar(f"{player.nome}: — *Suspiro*... Tá bom, tá bom. Eu vou com você.")
-                break
-            else:
-                UI.falar("Responda adequadamente.")
-                time.sleep(1.5)
-
-        time.sleep(2.0)
-        UI.limpar_tela()
-
-        # --- PARTE 3: O ITEM MISTERIOSO (SISTEMA DE INVENTÁRIO) ---
-        UI.falar("Chegamos nos portões da escola justos no momento em que o sinal toca.")
-        UI.falar("Enquanto Naomi corre na frente para a sala dela, noto algo brilhando no chão perto dos armários.")
+        UI.falar(f"{prima}— Coma rápido para nós sairmos no horario")
         time.sleep(1.5)
-        
-        UI.acao("*Você se abaixa para pegar o objeto*")
-        UI.falar("É um pequeno pingente prateado com um formato estranho, quase como um olho.")
-        UI.falar("Não parece pertencer a nenhum aluno comum.")
-        
-        novo_item = "Pingente Prateado"
-        if hasattr(player, 'itens'):
-            player.itens.append(novo_item)
-        
-        print(f"\n[SISTEMA]: Novo item adicionado ao inventário: {novo_item}\n")
-        time.sleep(2.5)
-        
-        UI.falar("Guardo o pingente no bolso. Talvez eu descubra de quem é mais tarde.")
-        UI.falar("Agora, preciso me concentrar em sobreviver ao primeiro dia de aula...")
-        time.sleep(3.0)
-        UI.limpar_tela()
+        UI.falar(f"{player.nome}— Entendido")
+        #Caminho escola
+        print("—" * 104)
+        time.sleep(2.0)
+        UI.falar("*No caminho da escola eu vi como a atmosfera em Tóquio é diferente")
+        time.sleep(1.0)
+        UI.falar("*Da para ver como as pessoas não tem tempo para se preocupar com os outros")
+        time.sleep(2.0)
+
+        escolha_comprar = 0
+        opcoes_comprar = ["Lanche", "Bebida", "Marmita"]
+
+
+        if escolha_acordar == 1:
+            UI.falar(f"{prima}— Temos um pouco de tempo ainda, então vamos passar na loja de conveniencia antes")
+            time.sleep(1.0)
+            UI.falar(f"{prima}— Você quer comprar alguma coisa?")
+            time.sleep(2.0)
+
+            while True:
+                escolha_comprar = UI.menu(opcoes_comprar)
+                Player.itens.append(escolha_comprar)
+            
