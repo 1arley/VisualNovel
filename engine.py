@@ -1,7 +1,59 @@
+import os
+import sys
 import time
-from ui import UI
-from player import Player
 
+# ==========================================
+# MÓDULO: UI (Interface do Usuário)
+# ==========================================
+class UI:
+    @staticmethod
+    def titulo(texto):
+        print(30 * "=")
+        print(texto)
+        print(30 * "=")
+
+    @staticmethod
+    def menu(lista):
+        # DICA: Este menu é muito flexível. Você pode passar listas de qualquer tamanho.
+        for i, opcao in enumerate(lista):
+            print(f"{i+1} - {opcao}")
+        try:
+            escolha = int(input("Escolha: "))
+            return escolha
+        except ValueError:
+            return -1
+
+    @staticmethod
+    def limpar_tela():
+        os.system('cls' if os.name == 'nt' else 'clear')
+
+    @staticmethod
+    def falar(texto, velocidade=0.05):
+        for caractere in texto:
+            sys.stdout.write(caractere)
+            sys.stdout.flush()
+            time.sleep(velocidade)
+        print()
+
+    @staticmethod
+    def acao(texto, velocidade=0.5):
+        UI.falar(texto, velocidade)
+
+
+# ==========================================
+# MÓDULO: PLAYER (Jogador)
+# ==========================================
+class Player:
+    def __init__(self):
+        self.nome = ""
+        # DICA: É aqui que o inventário do jogador vive. 
+        # Você pode criar outros status aqui, como `self.dinheiro = 100` ou `self.reputacao = 0`
+        self.itens = [] 
+
+
+# ==========================================
+# MÓDULO: ENGINE (Cenas e Lógica da História)
+# ==========================================
 class Scene:
     """Classe base para todas as cenas do jogo."""
     def jogar(self, player):
@@ -28,6 +80,7 @@ class PrologueScene(Scene):
                 time.sleep(1.0)
                 UI.falar("Vão ter alguns eventos ao longo da sua jogatina que irão influenciar na sua vida como estudante.")
                 time.sleep(1.0)
+                # DICA: Como mencionado aqui, você pode adicionar variáveis no 'Player' para rastrear as rotas!
                 UI.falar("O sistema de rotas vai ser definido com base na reputação que você tem com os personagens.")
                 time.sleep(1.0)
                 UI.falar("E tenha em mente que toda ação que você faz tem um impacto em sua vida.")
@@ -51,7 +104,7 @@ class PrologueScene(Scene):
             UI.falar("Escolha um nome por favor.") 
             nome = input("> ")
             if len(nome) <= 15 and not nome.isnumeric():
-                player.nome = nome # Salvando o nome no objeto Player
+                player.nome = nome # Salvando o nome na instância do Player
                 break
             elif nome.isnumeric():
                 UI.falar("Você é o R2D2?")
@@ -92,7 +145,7 @@ class ChapterOneScene(Scene):
         UI.falar("*Talvez seja melhor eu responder")
         time.sleep(1.0)
         
-        opcoes_acordar = ["Sim", "Não"]
+        opcoes_acordar = ["Responder com calma", "Gritar de volta"]
         escolha_acordar = 0
         
         while True:
@@ -107,9 +160,10 @@ class ChapterOneScene(Scene):
                 UI.falar(f"{player.nome}:— Bom dia para você também, {prima}")
                 time.sleep(2.0)
                 
-                # Exemplo de uso de atributo de reputação se configurado no player
-                if hasattr(player, 'reputacao_prima'):
-                    player.reputacao_prima += 5 
+                # DICA: Se você quiser um sistema de reputação, inicie ele no def __init__ da classe Player.
+                if not hasattr(player, 'reputacao_prima'):
+                    player.reputacao_prima = 0
+                player.reputacao_prima += 5 
                     
                 escolha_acordar = 1
                 break
@@ -132,119 +186,98 @@ class ChapterOneScene(Scene):
         time.sleep(1.5)
         UI.falar("*Mesmo sendo o ensino médio, não tenho muitas esperanças que vá mudar muita coisa")
         time.sleep(1.0)
-        UI.falar("*A vida não é igual os filmes, então vou ter que me esforçar mais do que eu gostaria")
-        time.sleep(1.0)
-        UI.falar("*Porém talvez eu tenha uma pequena esperança que as coisas vão de algum jeito dar certo para mim agora.")
-        time.sleep(2.0)
         
-        if escolha_acordar == 1:
-            UI.falar(f"{prima}— Hoje você acordou mais rápido que o normal")
-            time.sleep(1.0)
-            UI.falar(f"{prima}— Esta ansioso para sua jornada como aluno do ensino médio?")
-            time.sleep(1.5)
-            UI.falar(f"{player.nome}— Não exatamente")
-            time.sleep(1.0)
-            UI.falar(f"{player.nome}— Talvez eu só esteja me tornando alguém mais competente agora")
-            time.sleep(1.5)
-            UI.falar(f"{prima}— Estou surpresa de escutar isso do mesmo cara que ficou coçando a bunda e jogando jogos as férias inteiras")
-            time.sleep(1.5)
-            UI.falar(f"{player.nome}— Engraçado escutar isso da mesma pessoa que ficou na TV comendo todos os meus lanches o dia inteiro")
-            time.sleep(1.0)
-            UI.falar(f"{player.nome}— Talvez até tenha ganhado alguns quilos")
-            time.sleep(1.5) 
-            UI.falar(f"{prima}— Você está a fim de ir para seu primeiro dia de aula com o olho roxo?")
-            time.sleep(1.0)
-            UI.falar(f"{prima}— Eu vou deixar essa passar só porque hoje é seu primeiro dia de aula")
-            time.sleep(1.5)
-            UI.falar("*Após isso ela vai embora com uma leve expressão de raiva")
-            time.sleep(1.0)
-            UI.falar("*O mais hilário disso é que ela realmente foi para o banheiro se pesar")
-
-        elif escolha_acordar == 2:
-            UI.falar(f"{prima}— Hoje é um dia importante para mim")
-            time.sleep(1.0)
-            UI.falar(f"{prima}— Sua mãe me pediu para eu te acompanhar na escola até você conseguir se adaptar bem")
-            time.sleep(1.0)
-            UI.falar(f"{prima}— Então por favor não vá me envergonhar logo hoje")
-            time.sleep(1.5)
-            UI.falar(f"{player.nome}— Tá bom tá bom, vou tentar meu melhor")
-            time.sleep(1.5)
-            UI.falar(f"{prima}— *Sigh*...Espero que você esteja levando isso a sério")
-            time.sleep(3.0)
-
-        print("—" * 104)
-        UI.falar(f"*Bom, esta é minha prima {prima}")
-        time.sleep(1.0)
-        UI.falar("*O nome dela é meio incomum porque ela veio da europa")
-        time.sleep(1.0)
-        UI.falar("*Meu tio ganhou uma bolsa lá e achou uma bela esposa")
-        time.sleep(1.0)
-        UI.falar("*A esposa dele sempre teve interesse no japão, então eles decidiram se mudar para cá")
-        time.sleep(1.0)
-        UI.falar(f"*Após isso eu conheci a {prima} com 6 anos de idade quando meu tio decidiu passar as férias na casa dos meus pais em Osaka")
-        time.sleep(1.0)
-        UI.falar("*Na época...como posso dizer")
-        time.sleep(1.0)
-        UI.falar("*Ela era uma criança com o espirito livre")
-        time.sleep(1.0)
-        UI.falar("*Gostava de colecionar insetos e subir em árvores")
-        time.sleep(1.0)
-        UI.falar("*Talvez esse seja o motivo que eu perdi um pouco de medo de insetos")
-        time.sleep(1.0)
-        UI.falar("*De qualquer maneira, meu tio indicou uma escola interessante para eu fazer no ensino médio em Tóquio")
-        time.sleep(1.0)
-        UI.falar("*Meus pais acharam a ideia interessante e foram na onda")
-        time.sleep(1.0)
-        UI.falar("*Agora eu estou morando com meu tio, prima e sua esposa desde o começo das férias")
-        time.sleep(1.0)
-        UI.falar("*Meu pai decidiu que eu deveria me mudar o mais rápido possível para me adaptar antes")
-        time.sleep(1.0)
-        UI.falar("*Eu nunca tive muitos amigos no fundamental, então não tinha desculpas para me manter la de qualquer jeito")
-        time.sleep(1.0)
-        UI.falar("*O ensino médio é uma virada de chave para muitas pessoas, então fiquei esperançoso que talvez algo dê certo para mim")
-        time.sleep(1.0)
-        UI.falar("*Minha prima tem uma aparência acima da média, então acredito que ela não vai ter muitos problemas sobre isso")
-        time.sleep(1.0)
-        UI.falar("*Porém eu sou uma pessoa totalmente mediana")
-        time.sleep(1.0)
-        UI.falar("*E infelizmente essa é a realidade, pessoas como eu são socialmente excluídas")
-        time.sleep(1.0)
-        UI.falar("*Quando eu me dei conta disso, eu já estava em Tóquio com todas as minhas bagagens na casa")
-        time.sleep(1.0)
-        UI.falar(f"*Aparentemente a {prima} me falou que ia tomar conta de mim por um tempo")
-        time.sleep(1.0)
-        UI.falar("*Mas não dou uma semana para ela ficar sem tempo para cuidar de seu pobre primo")
-        time.sleep(1.0)
-        UI.falar("*Bom, vou terminar de me arrumar para não acabar me atrasando no primeiro dia")
-        time.sleep(4.0)
-        print("—" * 104)
-        time.sleep(2.0)
-        UI.falar(f"{prima}— Seu café está pronto")
-        time.sleep(1.0)
-        UI.falar(f"{prima}— Minha mãe fritou alguns ovos antes de ir trabalhar")
-        time.sleep(1.5)
-        UI.falar(f"{prima}— Coma rápido para nós sairmos no horario")
-        time.sleep(1.5)
-        UI.falar(f"{player.nome}— Entendido")
-        #Caminho escola
-        print("—" * 104)
-        time.sleep(2.0)
+        # --- Caminho Escola e Loja de Conveniência ---
+        UI.limpar_tela()
         UI.falar("*No caminho da escola eu vi como a atmosfera em Tóquio é diferente")
         time.sleep(1.0)
-        UI.falar("*Da para ver como as pessoas não tem tempo para se preocupar com os outros")
+        UI.falar("*Dá para ver como as pessoas não têm tempo para se preocupar com os outros")
         time.sleep(2.0)
 
         escolha_comprar = 0
         opcoes_comprar = ["Lanche", "Bebida", "Marmita"]
 
-
         if escolha_acordar == 1:
-            UI.falar(f"{prima}— Temos um pouco de tempo ainda, então vamos passar na loja de conveniencia antes")
+            UI.falar(f"{prima}— Temos um pouco de tempo ainda, então vamos passar na loja de conveniência antes")
             time.sleep(1.0)
             UI.falar(f"{prima}— Você quer comprar alguma coisa?")
             time.sleep(2.0)
 
             while True:
                 escolha_comprar = UI.menu(opcoes_comprar)
-                Player.itens.append(escolha_comprar)
+                
+                # DICA: Verificação de segurança para saber se o jogador digitou um número válido (1, 2 ou 3)
+                if 1 <= escolha_comprar <= len(opcoes_comprar):
+                    # DICA: escolha_comprar é o número que o usuário digitou (1, 2 ou 3).
+                    # Subtraímos 1 porque as listas em Python começam do índice 0.
+                    item_escolhido = opcoes_comprar[escolha_comprar - 1]
+                    
+                    # CORREÇÃO LÓGICA: Usar 'player' (minúsculo - a instância) em vez de 'Player' (a Classe)
+                    player.itens.append(item_escolhido)
+                    
+                    UI.falar(f"*Você comprou um(a) {item_escolhido} e guardou na mochila.*")
+                    print(f"\n[SISTEMA]: Novo item adicionado ao inventário: {item_escolhido}\n")
+                    time.sleep(2.0)
+                    break # CORREÇÃO LÓGICA: O 'break' impede que o jogador fique preso num loop infinito comprando itens
+                else:
+                    UI.falar("Escolha inválida, a loja não tem isso.")
+                    time.sleep(1.0)
+                    
+        UI.falar("Agora, preciso me concentrar em sobreviver ao primeiro dia de aula...")
+        time.sleep(3.0)
+        UI.limpar_tela()
+
+
+# ==========================================
+# MÓDULO: MAIN (Controle do Jogo)
+# ==========================================
+class GameEngine:
+    def __init__(self):
+        self.player = Player()
+        self.rodando = True
+        # DICA: Para adicionar novos capítulos, crie a classe Herdando de Scene e adicione nesta lista!
+        self.cenas = [PrologueScene(), ChapterOneScene()]
+
+    def iniciar(self):
+        while self.rodando:
+            UI.limpar_tela()
+            UI.titulo("Visual Novel 1")
+            opcoes = ["Iniciar Jogo", "Carregar Jogo", "Sair"]
+            escolha = UI.menu(opcoes)
             
+            if escolha == 1:
+                print("Iniciando o jogo...")
+                time.sleep(1.5)
+                self.novo_jogo()
+            elif escolha == 2:
+                print("Carregando o jogo... (Sistema não implementado)")
+                time.sleep(2)
+            elif escolha == 3:
+                print("Saindo do jogo...")
+                self.rodando = False
+            else:
+                print("Opção inválida!")
+                time.sleep(2)
+
+    def novo_jogo(self):
+        UI.limpar_tela()
+        # DICA: O motor percorre a lista de cenas automaticamente.
+        # Ele passa a mesma instância 'self.player' para todas as cenas, mantendo os itens e o nome salvos!
+        for cena in self.cenas:
+            cena.jogar(self.player)
+            
+        UI.limpar_tela()
+        UI.titulo("FIM DA DEMONSTRAÇÃO")
+        
+        # Mostrando o inventário no final como teste:
+        print("\n=== SEU STATUS FINAL ===")
+        print(f"Nome: {self.player.nome}")
+        print(f"Inventário: {', '.join(self.player.itens) if self.player.itens else 'Vazio'}")
+        print("========================\n")
+        
+        input("Pressione Enter para voltar ao menu...")
+
+# Execução do script principal
+if __name__ == "__main__":
+    jogo = GameEngine()
+    jogo.iniciar()
