@@ -211,14 +211,13 @@ class ChapterOneScene(Scene):
                     # DICA: escolha_comprar é o número que o usuário digitou (1, 2 ou 3).
                     # Subtraímos 1 porque as listas em Python começam do índice 0.
                     item_escolhido = opcoes_comprar[escolha_comprar - 1]
-                    
-                    # CORREÇÃO LÓGICA: Usar 'player' (minúsculo - a instância) em vez de 'Player' (a Classe)
+
                     player.itens.append(item_escolhido)
                     
                     UI.falar(f"*Você comprou um(a) {item_escolhido} e guardou na mochila.*")
                     print(f"\n[SISTEMA]: Novo item adicionado ao inventário: {item_escolhido}\n")
                     time.sleep(2.0)
-                    break # CORREÇÃO LÓGICA: O 'break' impede que o jogador fique preso num loop infinito comprando itens
+                    break 
                 else:
                     UI.falar("Escolha inválida, a loja não tem isso.")
                     time.sleep(1.0)
@@ -227,57 +226,3 @@ class ChapterOneScene(Scene):
         time.sleep(3.0)
         UI.limpar_tela()
 
-
-# ==========================================
-# MÓDULO: MAIN (Controle do Jogo)
-# ==========================================
-class GameEngine:
-    def __init__(self):
-        self.player = Player()
-        self.rodando = True
-        # DICA: Para adicionar novos capítulos, crie a classe Herdando de Scene e adicione nesta lista!
-        self.cenas = [PrologueScene(), ChapterOneScene()]
-
-    def iniciar(self):
-        while self.rodando:
-            UI.limpar_tela()
-            UI.titulo("Visual Novel 1")
-            opcoes = ["Iniciar Jogo", "Carregar Jogo", "Sair"]
-            escolha = UI.menu(opcoes)
-            
-            if escolha == 1:
-                print("Iniciando o jogo...")
-                time.sleep(1.5)
-                self.novo_jogo()
-            elif escolha == 2:
-                print("Carregando o jogo... (Sistema não implementado)")
-                time.sleep(2)
-            elif escolha == 3:
-                print("Saindo do jogo...")
-                self.rodando = False
-            else:
-                print("Opção inválida!")
-                time.sleep(2)
-
-    def novo_jogo(self):
-        UI.limpar_tela()
-        # DICA: O motor percorre a lista de cenas automaticamente.
-        # Ele passa a mesma instância 'self.player' para todas as cenas, mantendo os itens e o nome salvos!
-        for cena in self.cenas:
-            cena.jogar(self.player)
-            
-        UI.limpar_tela()
-        UI.titulo("FIM DA DEMONSTRAÇÃO")
-        
-        # Mostrando o inventário no final como teste:
-        print("\n=== SEU STATUS FINAL ===")
-        print(f"Nome: {self.player.nome}")
-        print(f"Inventário: {', '.join(self.player.itens) if self.player.itens else 'Vazio'}")
-        print("========================\n")
-        
-        input("Pressione Enter para voltar ao menu...")
-
-# Execução do script principal
-if __name__ == "__main__":
-    jogo = GameEngine()
-    jogo.iniciar()

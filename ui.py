@@ -32,6 +32,5 @@ class UI:
         print()
 
     @staticmethod
-    def acao(texto, velocidade=0.5):
-        # Reaproveitando a lógica do 'falar', mas permitindo velocidades diferentes
+    def acao(texto, velocidade=0.03):
         UI.falar(texto, velocidade)
